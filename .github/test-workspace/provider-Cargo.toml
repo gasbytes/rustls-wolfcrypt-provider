@@ -2,21 +2,22 @@
 name = "rustls-wolfcrypt-provider"
 version = "0.1.0"
 edition = "2021"
+rust-version = "1.85"
 
 [dependencies]
 rustls = { path = "../../rustls/rustls", default-features = false, features = ["tls12"] }
 der = { version = "0.7", default-features = false }
 pkcs8 = { version = "0.10.2", default-features = false }
 signature = { version = "2", default-features = false } 
-webpki = { package = "rustls-webpki", version = "0.102", features = ["alloc"], default-features = false }
+webpki = { package = "rustls-webpki", version = "0.103.13", features = ["alloc"], default-features = false }
 foreign-types = { version = "0.5.0", default-features = false } 
 rustls-pki-types = { version = "1.11.0", default-features = false } 
 log = { version = "0.4.25", default-features = false } 
-env_logger = { version = "0.11.6", default-features = false }
 wolfssl-wolfcrypt = { git = "https://github.com/wolfSSL/wolfssl", features = ["aead"] }
 aead = { version = "0.5", default-features = false }
-rustls-pemfile = { version = "2.2.0", default-features = false }
-hex = { version = "0.4.3", default-features = false, features = ["alloc"]} 
+zeroize = { version = "1", default-features = false, features = ["alloc", "derive"] }
+
+[dev-dependencies]
 wycheproof = { version = "0.6.0", default-features = false, features = [
     "aead",
     "hkdf",
@@ -25,11 +26,9 @@ rayon = "1.10.0"
 anyhow = "1.0.95"
 num_cpus = "1.16.0"
 lazy_static = "1.5.0"
+hex = { version = "0.4.3", default-features = false, features = ["alloc"]} 
 hex-literal = "0.4.1"
-zeroize = { version = "1", default-features = false, features = ["alloc", "derive"] }
-
-
-[dev-dependencies]
+env_logger = { version = "0.11.6", default-features = false }
 rcgen = { version = "0.13" }
 serial_test = { version = "3.2.0", default-features = false }
 tokio = { version = "1.43", features = ["macros", "rt", "net", "io-util", "io-std"], default-features = false }

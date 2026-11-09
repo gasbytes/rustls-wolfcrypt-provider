@@ -8,7 +8,7 @@ provider itself operates independently of `std`.
 ## Status
 
 This is in an alpha stage, particularly because the Rustls API is not yet stable.
-This code currently works with Rustls = 0.23.45.
+This code currently works with Rustls 0.23.46 or any later 0.23 release.
 
 ## Repo Structure
 
