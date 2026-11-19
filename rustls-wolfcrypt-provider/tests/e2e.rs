@@ -25,7 +25,7 @@ use std::sync::Once;
 use std::sync::{Arc, Mutex};
 use std::thread;
 use wolfssl_wolfcrypt::ecc::ECC;
-#[cfg(not(fips_v5_2_3))]
+#[cfg(not(fips_v5))]
 use wolfssl_wolfcrypt::ed25519::Ed25519;
 use wolfssl_wolfcrypt::random::RNG;
 use wolfssl_wolfcrypt::sys::*;
@@ -437,7 +437,7 @@ mod tests {
 
     /// DER-encodes an Ed25519 private key. The crate has no wrapper for
     /// `wc_Ed25519PrivateKeyToDer`, so this uses the raw bindings.
-    #[cfg(not(fips_v5_2_3))]
+    #[cfg(not(fips_v5))]
     fn ed25519_private_key_to_der(priv_key: &[u8], pub_key: &[u8]) -> Vec<u8> {
         let mut der = vec![0u8; 200]; // Adjust size if needed
         unsafe {
@@ -530,7 +530,7 @@ mod tests {
     }
 
     #[test]
-    #[cfg(not(fips_v5_2_3))]
+    #[cfg(not(fips_v5))]
     fn eddsa_sign_and_verify() {
         let wolfcrypt_default_provider = rustls_wolfcrypt_provider::default_provider();
 
@@ -615,8 +615,8 @@ mod tests {
         let rng_object = WCRngObject::new(&mut rng_c_type);
         rng_object.init().unwrap();
 
-        // FIPS v5.2.3 does not export wc_RsaSetRNG().
-        #[cfg(not(fips_v5_2_3))]
+        // wc_RsaSetRNG only exists in builds with RSA blinding.
+        #[cfg(rsa_setrng)]
         unsafe {
             wc_RsaSetRNG(rsa_key_object.as_ptr(), rng_object.as_ptr())
         };
@@ -727,8 +727,8 @@ mod tests {
         let rng_object = WCRngObject::new(&mut rng_c_type);
         rng_object.init().unwrap();
 
-        // FIPS v5.2.3 does not export wc_RsaSetRNG().
-        #[cfg(not(fips_v5_2_3))]
+        // wc_RsaSetRNG only exists in builds with RSA blinding.
+        #[cfg(rsa_setrng)]
         unsafe {
             wc_RsaSetRNG(rsa_key_object.as_ptr(), rng_object.as_ptr())
         };
