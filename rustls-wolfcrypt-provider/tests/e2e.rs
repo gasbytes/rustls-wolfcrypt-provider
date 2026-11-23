@@ -42,7 +42,7 @@ const TLSV1_3: &str = "-v 4";
  * This is needed because both TLS 1.2 and TLS 1.3 tests spin up a local server
  * on the same port (4443). Without synchronization, tests running in parallel
  * could try to bind to the same port or interact with the wrong server instance.
-*/
+ */
 lazy_static! {
     static ref SERVER_LOCK: Mutex<()> = Mutex::new(());
 }
