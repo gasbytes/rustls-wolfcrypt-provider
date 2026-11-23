@@ -9,7 +9,7 @@ on:
 jobs:
   ubuntu-build:
     name: Build and Test (Ubuntu)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       WOLFSSL_SRC: ${{ github.workspace }}/wolfssl
       WOLFSSL_PREFIX: ${{ github.workspace }}/wolfssl-install

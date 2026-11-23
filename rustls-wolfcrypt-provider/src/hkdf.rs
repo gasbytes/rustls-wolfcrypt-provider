@@ -139,7 +139,7 @@ mod tests {
     /// This is the primary compliance test using SHA-256
     /// Its 13 byte salt is under FIPS v5.2.3's 14 byte HMAC key minimum.
     #[test]
-    #[cfg(not(fips_v5_2_3))]
+    #[cfg(not(fips_v5))]
     fn test_hkdf_sha256() {
         // Test vectors from RFC 5869 Appendix A.1
         let ikm = hex!("0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b");
@@ -272,7 +272,7 @@ mod tests {
                 let tests = &test_group.tests;
                 for test in tests {
                     // FIPS v5.2.3 refuses HMAC keys, so HKDF salts, under 14 bytes.
-                    if cfg!(fips_v5_2_3) && test.salt.len() < 14 {
+                    if cfg!(fips_v5) && test.salt.len() < 14 {
                         continue;
                     }
                     let pseudorandom_key_expander =
@@ -317,7 +317,7 @@ mod tests {
                 let tests = &test_group.tests;
                 for test in tests {
                     // FIPS v5.2.3 refuses HMAC keys, so HKDF salts, under 14 bytes.
-                    if cfg!(fips_v5_2_3) && test.salt.len() < 14 {
+                    if cfg!(fips_v5) && test.salt.len() < 14 {
                         continue;
                     }
                     let pseudorandom_key_expander =

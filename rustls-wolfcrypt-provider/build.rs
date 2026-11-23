@@ -7,10 +7,17 @@ fn main() {
     if std::env::var("DEP_WOLFSSL_FIPS").as_deref() == Ok("1") {
         println!("cargo::rustc-cfg=fips");
     }
-    // The FIPS v5.2.3 module has no Ed25519, published as FIPS_V5_2_3=1.
-    println!("cargo::rustc-check-cfg=cfg(fips_v5_2_3)");
-    println!("cargo::rerun-if-env-changed=DEP_WOLFSSL_FIPS_V5_2_3");
-    if std::env::var("DEP_WOLFSSL_FIPS_V5_2_3").as_deref() == Ok("1") {
-        println!("cargo::rustc-cfg=fips_v5_2_3");
+    // wc_RsaSetRNG only exists in builds with RSA blinding, published as
+    // RSA_SETRNG=1.
+    println!("cargo::rustc-check-cfg=cfg(rsa_setrng)");
+    println!("cargo::rerun-if-env-changed=DEP_WOLFSSL_RSA_SETRNG");
+    if std::env::var("DEP_WOLFSSL_RSA_SETRNG").as_deref() == Ok("1") {
+        println!("cargo::rustc-cfg=rsa_setrng");
+    }
+    // FIPS v5 modules have no Ed25519, published as FIPS_V5=1.
+    println!("cargo::rustc-check-cfg=cfg(fips_v5)");
+    println!("cargo::rerun-if-env-changed=DEP_WOLFSSL_FIPS_V5");
+    if std::env::var("DEP_WOLFSSL_FIPS_V5").as_deref() == Ok("1") {
+        println!("cargo::rustc-cfg=fips_v5");
     }
 }

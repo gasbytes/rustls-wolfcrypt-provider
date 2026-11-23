@@ -28,7 +28,7 @@ pub mod aead {
 }
 pub mod sign {
     pub mod ecdsa;
-    #[cfg(not(fips_v5_2_3))]
+    #[cfg(not(fips_v5))]
     pub mod eddsa;
     pub mod rsa;
 }
@@ -138,7 +138,7 @@ impl rustls::crypto::KeyProvider for Provider {
         let algorithms: SigningAlgorithms = vec![
             Box::new(|key| sign::ecdsa::EcdsaSigningKey::try_from(key).map(|x| Arc::new(x) as _)),
             Box::new(|key| sign::rsa::RsaPrivateKey::try_from(key).map(|x| Arc::new(x) as _)),
-            #[cfg(not(fips_v5_2_3))]
+            #[cfg(not(fips_v5))]
             Box::new(|key| sign::eddsa::Ed25519PrivateKey::try_from(key).map(|x| Arc::new(x) as _)),
         ];
 
@@ -184,7 +184,7 @@ static ALL_ECDSA_SCHEMES: &[rustls::SignatureScheme] = &[
     rustls::SignatureScheme::ECDSA_NISTP256_SHA256,
     rustls::SignatureScheme::ECDSA_NISTP384_SHA384,
     rustls::SignatureScheme::ECDSA_NISTP521_SHA512,
-    #[cfg(not(fips_v5_2_3))]
+    #[cfg(not(fips_v5))]
     rustls::SignatureScheme::ED25519,
 ];
 
